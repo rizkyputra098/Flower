@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="img/flowers.png" type="image/x-icon">
+  <title>Flowers</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #ff6b6b, #ee5a24, #ff9ff3, #54a0ff);
+      background-size: 400% 400%;
+      animation: gradientShift 12s ease-in-out infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+      opacity: 1;
+      transition: opacity 2s ease-in-out, transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    body.fade-out {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      25% { background-position: 100% 0%; }
+      50% { background-position: 100% 100%; }
+      75% { background-position: 0% 100%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .love-container {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      transform: translateY(0);
+      transition: all 1s cubic-bezier(0.23, 1, 0.320, 1);
+      animation: containerFadeIn 2s ease-out;
+    }
+
+    @keyframes containerFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .greetings {
+      margin-bottom: 30px;
+      opacity: 0;
+      animation: greetingsFadeIn 1.5s ease-out 0.5s forwards;
+    }
+
+    @keyframes greetingsFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .greetings span {
+      display: inline-block;
+      font-size: 4rem;
+      font-weight: bold;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      margin: 0 5px;
+      animation: bounce 2s infinite;
+      animation-delay: calc(var(--i) * 0.1s);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .greetings span:hover {
+      transform: translateY(-10px) scale(1.2);
+      text-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+      filter: brightness(1.3);
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { 
+        transform: translateY(0); 
+      }
+      40% { 
+        transform: translateY(-20px);
+      }
+      60% { 
+        transform: translateY(-10px);
+      }
+    }
+
+    .heart-button {
+      position: relative;
+      width: 200px;
+      height: 180px;
+      margin: 0 auto 30px;
+      cursor: pointer;
+      transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: heartbeat 1.5s ease-in-out infinite;
+      opacity: 0;
+      animation: heartFadeIn 1.5s ease-out 1s forwards, heartbeat 1.5s ease-in-out 1s infinite;
+    }
+
+    @keyframes heartFadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.3) rotate(-180deg);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    .heart-button:hover {
+      transform: scale(1.15) rotate(5deg);
+      filter: brightness(1.3) saturate(1.2);
+    }
+
+    .heart-button:active {
+      transform: scale(0.9) rotate(-5deg);
+      transition: all 0.1s ease-out;
+    }
+
+    .heart-button.clicked {
+      animation: clickEffect 1.5s ease-out;
+    }
+
+    @keyframes clickEffect {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.3) rotate(10deg); }
+      50% { transform: scale(0.8) rotate(-5deg); }
+      75% { transform: scale(1.1) rotate(2deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      14% { transform: scale(1.05); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.05); }
+      70% { transform: scale(1); }
+    }
+
+    .heart {
+      position: relative;
+      width: 100px;
+      height: 90px;
+      margin: 0 auto;
+      transform: rotate(-45deg);
+      transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .heart:before,
+    .heart:after {
+      content: '';
+      width: 52px;
+      height: 80px;
+      position: absolute;
+      left: 50px;
+      top: 0;
+      background: linear-gradient(45deg, #ff1744, #f50057, #e91e63, #ff6b9d);
+      background-size: 200% 200%;
+      border-radius: 52px 52px 0 0;
+      transform: rotate(-45deg);
+      transform-origin: 0 100%;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+      animation: heartGradient 3s ease-in-out infinite;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .heart:after {
+      left: 0;
+      transform: rotate(45deg);
+      transform-origin: 100% 100%;
+    }
+
+    @keyframes heartGradient {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .heart-button:hover .heart:before,
+    .heart-button:hover .heart:after {
+      box-shadow: 0 12px 24px rgba(255, 23, 68, 0.4);
+      filter: brightness(1.2);
+    }
+
+    .love-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      font-size: 2rem;
+      font-weight: bold;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      letter-spacing: 2px;
+      z-index: 10;
+      transition: all 0.3s ease;
+    }
+
+    .description {
+      color: white;
+      font-size: 1.4rem;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeInUp 1.5s ease-out 1.5s forwards;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .description:hover {
+      transform: translateY(-5px);
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+      filter: brightness(1.1);
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .floating-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .floating-heart {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 20px;
+      animation: float 8s infinite linear;
+      transition: all 0.3s ease;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(0deg) scale(0.5);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+        transform: translateY(90vh) rotate(36deg) scale(1);
+      }
+      90% {
+        opacity: 1;
+        transform: translateY(-50px) rotate(324deg) scale(1);
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg) scale(0.5);
+        opacity: 0;
+      }
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: white;
+      border-radius: 50%;
+      animation: sparkle 2s infinite;
+      transition: all 0.3s ease;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { 
+        opacity: 0; 
+        transform: scale(0) rotate(0deg); 
+      }
+      50% { 
+        opacity: 1; 
+        transform: scale(1.5) rotate(180deg); 
+      }
+    }
+
+    .heart-button:hover .sparkle {
+      animation-duration: 1s;
+      background: linear-gradient(45deg, #fff, #ff6b9d, #fff);
+    }
+
+    /* Loading overlay untuk transisi halus */
+    .transition-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ff6b6b, #ee5a24, #ff9ff3, #54a0ff);
+      background-size: 400% 400%;
+      animation: gradientShift 2s ease-in-out infinite;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .transition-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .transition-heart {
+      width: 80px;
+      height: 72px;
+      position: relative;
+      transform: rotate(-45deg);
+      animation: transitionHeartbeat 1s ease-in-out infinite;
+    }
+
+    .transition-heart:before,
+    .transition-heart:after {
+      content: '';
+      width: 42px;
+      height: 64px;
+      position: absolute;
+      left: 40px;
+      top: 0;
+      background: white;
+      border-radius: 42px 42px 0 0;
+      transform: rotate(-45deg);
+      transform-origin: 0 100%;
+    }
+
+    .transition-heart:after {
+      left: 0;
+      transform: rotate(45deg);
+      transform-origin: 100% 100%;
+    }
+
+    @keyframes transitionHeartbeat {
+      0%, 100% { transform: rotate(-45deg) scale(1); }
+      50% { transform: rotate(-45deg) scale(1.2); }
+    }
+
+    /* Ripple effect saat klik */
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      transform: scale(0);
+      animation: rippleEffect 0.8s ease-out;
+      pointer-events: none;
+    }
+
+    @keyframes rippleEffect {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .greetings span {
+        font-size: 2.5rem;
+        margin: 0 2px;
+      }
+      .heart-button {
+        width: 150px;
+        height: 135px;
+      }
+      .love-text {
+        font-size: 1.5rem;
+      }
+      .description {
+        font-size: 1.1rem;
+        padding: 0 20px;
+      }
+    }
+
+    /* Smooth scroll behavior */
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+  <div class="transition-overlay" id="transitionOverlay">
+    <div class="transition-heart"></div>
+  </div>
+
+  <div class="floating-hearts" id="floatingHearts"></div>
+
+  <div class="love-container">
+    <div class="greetings">
+      <span style="--i:0">S</span>
+      <span style="--i:1">E</span>
+      <span style="--i:2">M</span>
+      <span style="--i:3">A</span>
+      <span style="--i:4">N</span>
+      <span style="--i:5">G</span>
+      <span style="--i:6">A</span>
+      <span style="--i:7">T</span>
+      <span style="--i:8">T</span>
+      <span style="--i:9">T</span>
+    </div>
+
+    <div class="description">
+      <span>Semogaa bisaa buat kamuu semangatt ngejalanin harii iniii...</span>
+    </div>
+
+    <div class="heart-button" onclick="playMusicAndNavigate(event)">
+      <div class="heart">
+        <div class="love-text"></div>
+      </div>
+      <div class="sparkle" style="top: 10px; left: 20px; animation-delay: 0s;"></div>
+      <div class="sparkle" style="top: 30px; right: 15px; animation-delay: 0.5s;"></div>
+      <div class="sparkle" style="bottom: 20px; left: 30px; animation-delay: 1s;"></div>
+      <div class="sparkle" style="bottom: 10px; right: 25px; animation-delay: 1.5s;"></div>
+      <div class="sparkle" style="top: 50%; left: 10px; animation-delay: 0.8s;"></div>
+      <div class="sparkle" style="top: 50%; right: 10px; animation-delay: 1.3s;"></div>
+    </div>
+  </div>
+
+  <script>
+    // Enhanced floating hearts dengan smooth movement
+    function createFloatingHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'floating-heart';
+      
+      const hearts = ['💖', '💝', '💕', '💘', '💞'];
+      heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+      
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (Math.random() * 3 + 6) + 's';
+      heart.style.opacity = Math.random() * 0.6 + 0.2;
+      heart.style.fontSize = (Math.random() * 10 + 15) + 'px';
+      
+      document.getElementById('floatingHearts').appendChild(heart);
+      
+      setTimeout(() => {
+        if (heart.parentNode) {
+          heart.style.transition = 'opacity 1s ease-out';
+          heart.style.opacity = '0';
+          setTimeout(() => heart.remove(), 1000);
+        }
+      }, 8000);
+    }
+    
+    setInterval(createFloatingHeart, 600);
+
+    // Ripple effect function
+    function createRipple(event, element) {
+      const rect = element.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x = event.clientX - rect.left - size / 2;
+      const y = event.clientY - rect.top - size / 2;
+      
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = x + 'px';
+      ripple.style.top = y + 'px';
+      
+      element.appendChild(ripple);
+      
+      setTimeout(() => ripple.remove(), 800);
+    }
+
+    // Enhanced click function dengan smooth transitions
+    function playMusicAndNavigate(event) {
+      const heartButton = event.currentTarget;
+      const overlay = document.getElementById('transitionOverlay');
+      
+      // Add clicked effect
+      heartButton.classList.add('clicked');
+      
+      // Create ripple effect
+      createRipple(event, heartButton);
+      
+      // Try to play music
+      const music = document.getElementById('backgroundMusic');
+      if (music) {
+        music.volume = 0.4;
+        music.play().then(() => {
+          console.log('Music started');
+        }).catch(err => {
+          console.log('Music error:', err);
+        });
+      }
+
+      // Smooth transition sequence
+      setTimeout(() => {
+        // Fade out main content
+        document.body.classList.add('fade-out');
+      }, 500);
+
+      setTimeout(() => {
+        // Show transition overlay
+        overlay.classList.add('active');
+      }, 800);
+
+      setTimeout(() => {
+        // Navigate to flower.html dengan smooth transition
+        window.location.href = 'flower.html';
+      }, 2500);
+    }
+
+    // Smooth page load
+    window.addEventListener('load', function() {
+      document.body.style.opacity = '1';
+      
+      // Preload some floating hearts
+      for (let i = 0; i < 3; i++) {
+        setTimeout(createFloatingHeart, i * 300);
+      }
+    });
+
+    // Smooth hover effects untuk elemen interaktif
+    document.querySelectorAll('.greetings span').forEach(span => {
+      span.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-10px) scale(1.2)';
+      });
+      
+      span.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0) scale(1)';
+      });
+    });
+
+    // Smooth scroll to top jika diperlukan
+    function smoothScrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // Performance optimization
+    let ticking = false;
+    function updateAnimations() {
+      // Update any performance-heavy animations here
+      ticking = false;
+    }
+
+    function requestTick() {
+      if (!ticking) {
+        requestAnimationFrame(updateAnimations);
+        ticking = true;
+      }
+    }
+
+    // Enhanced CSS transitions dengan JavaScript support
+    document.addEventListener('DOMContentLoaded', function() {
+      // Add smooth transition classes after DOM is ready
+      document.body.classList.add('smooth-transitions-ready');
+    });
+  </script>
+</body>
+</html>
